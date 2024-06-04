@@ -1,9 +1,11 @@
 package com.ultimaschool.pessoas;
 
-public class Estudante extends Pessoa{
+public class Estudante extends Pessoa {
+
+    final int UNIDADE = 4;
 
     private String matricula;
-    private double[] notas = new double[4];
+    private double[] notas = new double[UNIDADE];
 
     public Estudante(String nome) {
         super(nome);
@@ -27,24 +29,48 @@ public class Estudante extends Pessoa{
         this.notas = notas;
     }
 
-    public void consoldarNota(int unidade, double nota){
-       //todo implementor
+    public void consoldarNota(int unidade, double nota) {
+        notas[unidade - 1] = nota;
 
-   }
-   public double calcularMediaFinal(){
-       //todo implementor
-       return 0.0;
-   }
+        //todo implementor
 
+    }
+
+    public double calcularMediaFinal() {
+        double somaNotas = 0.0;
+        for (double nota : notas) {
+            somaNotas += nota;
+        }
+        return somaNotas / UNIDADE;
+    }
+
+    private int definirUnidadeApartirDoMes(int mes){
+        if (mes >= 1 && mes <+ 3){
+            return 1;
+        }else if (mes > 3 && mes <= 6){
+            return 2;
+        }else if (mes > 6 && mes <= 9){
+            return 3;
+        }else if (mes > 9 && mes <= 12){
+            return 4;
+        }else {
+            return 0;
+        }
+
+    }
     @Override
     public String verSituacao(int mes) {
-        //todo implementor
-        return null;
+
+        int unidade = definirUnidadeApartirDoMes(mes);
+        if (getNotas()[unidade -1] >= 7.0){
+            return "O aluno esta na média da unidade " + unidade + " e obteve a nota "+ getNotas()[unidade -1];
+        }
+        return "O aluno não esta na média da unidade " + unidade + " e obteve a nota "+ getNotas()[unidade -1];
     }
 
     @Override
     public String relatorio() {
-        //todo implementor
-        return null;
+
+        return "O estudande " + getNome() + " obteve a média final de " + calcularMediaFinal();
     }
 }
